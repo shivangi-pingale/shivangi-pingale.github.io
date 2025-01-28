@@ -22,10 +22,30 @@ document.getElementById('contactForm').addEventListener('submit', function (e) {
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
+// Select elements requiring light mode styles
+const elementsToToggle = [
+    body,
+    document.querySelector('header'),
+    ...document.querySelectorAll('section, footer, .nav-links, education,about, #resume, #theme-toggle, #back-to-top')
+];
+
 themeToggle.addEventListener('click', () => {
-    body.classList.toggle('light-mode');
+    elementsToToggle.forEach(element => {
+        if (element) element.classList.toggle('light-mode');
+    });
     localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
 });
+
+// Apply saved theme on load
+window.addEventListener('load', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        elementsToToggle.forEach(element => {
+            if (element) element.classList.add('light-mode');
+        });
+    }
+});
+
 
 
 // Apply saved theme on load
